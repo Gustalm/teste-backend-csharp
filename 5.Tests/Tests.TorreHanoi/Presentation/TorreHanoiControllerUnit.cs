@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Hosting;
-using Application.TorreHanoi.Dto;
+﻿using Application.TorreHanoi.Dto;
 using Application.TorreHanoi.Interface;
 using Application.TorreHanoi.Message;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using Presentation.TorreHanoi.Controllers;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Hosting;
+using System.Drawing;
 
 namespace Tests.TorreHanoi.Presentation
 {
@@ -18,7 +19,6 @@ namespace Tests.TorreHanoi.Presentation
     public class TorreHanoiControllerUnit
     {
         private const string CategoriaTeste = "Presentation/Controller/TorreHanoi";
-
         private TorreHanoiController _controller;
         private readonly string _idProcesso = Guid.NewGuid().ToString();
 
@@ -28,14 +28,16 @@ namespace Tests.TorreHanoi.Presentation
             var mockAdicionarNovoPorcessoResponse = new AdicionarNovoPorcessoResponse { IdProcesso = Guid.NewGuid(), StatusCode = HttpStatusCode.Accepted };
             var mockObterProcessoPorResponse = new ObterProcessoPorResponse { StatusCode = HttpStatusCode.OK, Processo = CriarMockTorreHanoiCompletaDto() };
             var mockObterTodosProcessosResponse = new ObterTodosProcessosResponse { StatusCode = HttpStatusCode.OK, Processos = CriarMockTorreHanoiResumoDto() };
+            var mockObterImagemProcessoPorResponse = new ObterImagemProcessoPorResponse { StatusCode = HttpStatusCode.OK };
 
             var mockTorreHanoiApplicationService = new Mock<ITorreHanoiApplicationService>();
             mockTorreHanoiApplicationService.Setup(s => s.AdicionarNovoPorcesso(It.IsAny<int>())).Returns(() => mockAdicionarNovoPorcessoResponse);
             mockTorreHanoiApplicationService.Setup(s => s.ObterProcessoPor(It.Is<string>(id => id.Equals(_idProcesso)))).Returns(() => mockObterProcessoPorResponse);
             mockTorreHanoiApplicationService.Setup(s => s.ObterTodosProcessos()).Returns(() => mockObterTodosProcessosResponse);
+            mockTorreHanoiApplicationService.Setup(s => s.ObterImagemProcessoPor(It.Is<string>(id => id.Equals(_idProcesso)))).Returns(() => mockObterImagemProcessoPorResponse);
 
             _controller =
-                new TorreHanoiController(mockTorreHanoiApplicationService.Object) {Request = new HttpRequestMessage()};
+                new TorreHanoiController(mockTorreHanoiApplicationService.Object) { Request = new HttpRequestMessage() };
             _controller.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
         }
 
@@ -86,6 +88,16 @@ namespace Tests.TorreHanoi.Presentation
             Assert.IsTrue(response.MensagensDeErro.Count == 0);
         }
 
+        [TestMethod]
+        [TestCategory(CategoriaTeste)]
+        public void ObterImagemPor_Deverar_Retornar_Sucesso()
+        {
+            var httpResponse = _controller.GetImagem(_idProcesso);
+
+            Assert.IsNotNull(httpResponse);
+            Assert.AreEqual(httpResponse.StatusCode, HttpStatusCode.OK);
+        }
+
         private TorreHanoiCompletaDto CriarMockTorreHanoiCompletaDto()
         {
             var torre = new TorreHanoiCompletaDto
@@ -103,8 +115,8 @@ namespace Tests.TorreHanoi.Presentation
                     },
                     Tipo = "Origem"
                 },
-                Destino = new PinoDto {Discos = new List<DiscoDto> {new DiscoDto()}, Tipo = "Destino"},
-                Intermediario = new PinoDto {Discos = new List<DiscoDto> {new DiscoDto()}, Tipo = "Intermediario"}
+                Destino = new PinoDto { Discos = new List<DiscoDto> { new DiscoDto() }, Tipo = "Destino" },
+                Intermediario = new PinoDto { Discos = new List<DiscoDto> { new DiscoDto() }, Tipo = "Intermediario" }
             };
 
             return torre;
@@ -120,11 +132,11 @@ namespace Tests.TorreHanoi.Presentation
                 Status = "Pedente",
                 Origem = new PinoDto
                 {
-                    Discos = new List<DiscoDto> {new DiscoDto {Id = 1}, new DiscoDto {Id = 2}, new DiscoDto {Id = 3}},
+                    Discos = new List<DiscoDto> { new DiscoDto { Id = 1 }, new DiscoDto { Id = 2 }, new DiscoDto { Id = 3 } },
                     Tipo = "Origem"
                 },
-                Destino = new PinoDto {Discos = new List<DiscoDto> {new DiscoDto()}, Tipo = "Destino"},
-                Intermediario = new PinoDto {Discos = new List<DiscoDto> {new DiscoDto()}, Tipo = "Intermediario"}
+                Destino = new PinoDto { Discos = new List<DiscoDto> { new DiscoDto() }, Tipo = "Destino" },
+                Intermediario = new PinoDto { Discos = new List<DiscoDto> { new DiscoDto() }, Tipo = "Intermediario" }
             };
 
             torres.Add(torre);

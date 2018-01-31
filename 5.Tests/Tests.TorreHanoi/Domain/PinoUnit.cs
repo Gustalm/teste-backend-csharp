@@ -27,15 +27,15 @@ namespace Tests.TorreHanoi.Domain
             var torre = new global::Domain.TorreHanoi.TorreHanoi(3, _mockLogger.Object);
 
             Assert.IsNotNull(torre);
-            Assert.IsNotNull(torre.Destino);
-            Assert.IsNotNull(torre.Origem);
-            Assert.IsNotNull(torre.Intermediario);
-            Assert.AreEqual(torre.Origem.Tipo, global::Domain.TorreHanoi.TipoPino.Origem);
-            Assert.AreEqual(torre.Destino.Tipo, global::Domain.TorreHanoi.TipoPino.Destino);
-            Assert.AreEqual(torre.Intermediario.Tipo, global::Domain.TorreHanoi.TipoPino.Intermediario);
-            Assert.AreEqual(torre.Intermediario.Discos.Count, 0);
-            Assert.AreEqual(torre.Destino.Discos.Count, 0);
-            Assert.AreEqual(torre.Origem.Discos.Count, 3);
+            Assert.IsNotNull(torre.Torre3);
+            Assert.IsNotNull(torre.Torre1);
+            Assert.IsNotNull(torre.Torre2);
+            Assert.AreEqual(torre.Torre1.Tipo, global::Domain.TorreHanoi.TipoPino.Torre1);
+            Assert.AreEqual(torre.Torre3.Tipo, global::Domain.TorreHanoi.TipoPino.Torre3);
+            Assert.AreEqual(torre.Torre2.Tipo, global::Domain.TorreHanoi.TipoPino.Torre2);
+            Assert.AreEqual(torre.Torre2.Discos.Count, 0);
+            Assert.AreEqual(torre.Torre3.Discos.Count, 0);
+            Assert.AreEqual(torre.Torre1.Discos.Count, 3);
         }
 
         [TestMethod]
@@ -45,12 +45,12 @@ namespace Tests.TorreHanoi.Domain
             var torre = new global::Domain.TorreHanoi.TorreHanoi(3, _mockLogger.Object);
 
             Assert.IsNotNull(torre);
-            Assert.IsNotNull(torre.Origem);
-            Assert.AreEqual(torre.Origem.Discos.Count, 3);
+            Assert.IsNotNull(torre.Torre1);
+            Assert.AreEqual(torre.Torre1.Discos.Count, 3);
 
-            torre.Origem.RemoverDisco();
+            torre.Torre1.RemoverDisco();
 
-            Assert.AreEqual(torre.Origem.Discos.Count, 2);
+            Assert.AreEqual(torre.Torre1.Discos.Count, 2);
         }
 
         [TestMethod]
@@ -60,12 +60,12 @@ namespace Tests.TorreHanoi.Domain
             var torre = new global::Domain.TorreHanoi.TorreHanoi(3, _mockLogger.Object);
 
             Assert.IsNotNull(torre);
-            Assert.IsNotNull(torre.Intermediario);
-            Assert.AreEqual(torre.Intermediario.Discos.Count, 0);
+            Assert.IsNotNull(torre.Torre2);
+            Assert.AreEqual(torre.Torre2.Discos.Count, 0);
 
-            torre.Intermediario.AdicionarDisco(torre.Discos.First());
+            torre.Torre2.AdicionarDisco(torre.Discos.First());
 
-            Assert.AreEqual(torre.Intermediario.Discos.Count, 1);
+            Assert.AreEqual(torre.Torre2.Discos.Count, 1);
         }
 
         [TestMethod]
@@ -76,14 +76,14 @@ namespace Tests.TorreHanoi.Domain
             var torre = new global::Domain.TorreHanoi.TorreHanoi(3, _mockLogger.Object);
 
             Assert.IsNotNull(torre);
-            Assert.IsNotNull(torre.Intermediario);
-            Assert.AreEqual(torre.Intermediario.Discos.Count, 0);
+            Assert.IsNotNull(torre.Torre2);
+            Assert.AreEqual(torre.Torre2.Discos.Count, 0);
 
-            torre.Intermediario.AdicionarDisco(torre.Discos.Last());
+            torre.Torre2.AdicionarDisco(torre.Discos.Last());
 
-            Assert.AreEqual(torre.Intermediario.Discos.Count, 1);
+            Assert.AreEqual(torre.Torre2.Discos.Count, 1);
 
-            torre.Intermediario.AdicionarDisco(torre.Discos.First());
+            torre.Torre2.AdicionarDisco(torre.Discos.First());
         }
     }
 }

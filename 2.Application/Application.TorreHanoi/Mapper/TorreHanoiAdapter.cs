@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace Application.TorreHanoi.Mapper
 {
-    internal class TorreHanoiAdapter
+    public class TorreHanoiAdapter
     {
         internal TorreHanoiCompletaDto DomainParaApplicationDto(Domain.TorreHanoi.TorreHanoi domain)
         {
             var dto = new TorreHanoiCompletaDto
             {
                 Id = domain.Id.ToString(),
-                Destino = DomainParaApplicationDto(domain.Destino),
-                Intermediario = DomainParaApplicationDto(domain.Intermediario),
-                Origem = DomainParaApplicationDto(domain.Origem),
+                Destino = DomainParaApplicationDto(domain.Torre3),
+                Intermediario = DomainParaApplicationDto(domain.Torre2),
+                Origem = DomainParaApplicationDto(domain.Torre1),
                 DataCriacao = domain.DataCriacao,
                 DataFinalizacao = domain.DataFinalizacao,
                 Status = domain.Status.ToString()
@@ -30,9 +30,9 @@ namespace Application.TorreHanoi.Mapper
             return domains.Select(domain => new TorreHanoiResumoDto
                 {
                     Id = domain.Id.ToString(),
-                    Destino = DomainParaApplicationDto(domain.Destino),
-                    Intermediario = DomainParaApplicationDto(domain.Intermediario),
-                    Origem = DomainParaApplicationDto(domain.Origem),
+                    Destino = DomainParaApplicationDto(domain.Torre3),
+                    Intermediario = DomainParaApplicationDto(domain.Torre2),
+                    Origem = DomainParaApplicationDto(domain.Torre1),
                     Status = domain.Status.ToString()
                 })
                 .ToList();
@@ -55,15 +55,14 @@ namespace Application.TorreHanoi.Mapper
             return dto;
         }
 
-
-        internal TorreHanoiDto DomainParaDesignerDto(Domain.TorreHanoi.TorreHanoi domain)
+        public TorreHanoiDto DomainParaDesignerDto(Domain.TorreHanoi.TorreHanoi domain)
         {
             var dto = new TorreHanoiDto
             {
                 Id = domain.Id.ToString(),
-                Destino = DomainParaDesignerDto(domain.Destino),
-                Intermediario = DomainParaDesignerDto(domain.Intermediario),
-                Origem = DomainParaDesignerDto(domain.Origem)
+                Destino = DomainParaDesignerDto(domain.Torre3),
+                Intermediario = DomainParaDesignerDto(domain.Torre2),
+                Origem = DomainParaDesignerDto(domain.Torre1)
             };
 
             domain.Discos.ToList().ForEach(d => dto.Discos.Add(DomainParaDesignerDto(d)));

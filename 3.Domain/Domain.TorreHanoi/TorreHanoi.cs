@@ -15,9 +15,9 @@ namespace Domain.TorreHanoi
 
             Id = Guid.NewGuid();
             Discos = CadastrarDiscos(numeroDiscos);
-            Destino = new Pino("Destino", new List<Disco>());
-            Intermediario = new Pino("Intermediario", new List<Disco>());
-            Origem = new Pino("Origem", new List<Disco>(Discos));
+            Torre3 = new Pino("Torre3", new List<Disco>());
+            Torre2 = new Pino("Torre2", new List<Disco>());
+            Torre1 = new Pino("Torre1", new List<Disco>(Discos));
             DataCriacao = DateTime.Now;
             Status = TipoStatus.Pendente;
             PassoAPasso = new List<string>();
@@ -25,13 +25,14 @@ namespace Domain.TorreHanoi
 
         public Guid Id { get; }
         public ICollection<Disco> Discos { get; }
-        public Pino Destino { get; }
-        public Pino Intermediario { get; }
-        public Pino Origem { get; }
+        public Pino Torre3 { get; }
+        public Pino Torre2 { get; }
+        public Pino Torre1 { get; }
         public DateTime DataCriacao { get; }
         public DateTime? DataFinalizacao { get; private set; }
         public TipoStatus Status { get; private set; }
         public ICollection<string> PassoAPasso { get; }
+        public int count { get; set; }
 
         public void Processar()
         {
@@ -39,7 +40,7 @@ namespace Domain.TorreHanoi
             _log.Logar($"TorreHanoi id {Id} -> Iniciando Processamento", TipoLog.Fluxo);
             try
             {
-                Resolver(Discos.Count, Origem, Intermediario, Destino);
+                Resolver(Discos.Count, Torre1, Torre2, Torre3);
 
                 Status = TipoStatus.FinalizadoSucesso;
                 _log.Logar($"TorreHanoi id {Id} -> Processo finalizado com sucesso", TipoLog.Fluxo);
@@ -57,7 +58,7 @@ namespace Domain.TorreHanoi
 
         private void Resolver(int numeroDiscosRestante, Pino origem, Pino intermediario, Pino destino)
         {
-            if (numeroDiscosRestante <= 1)
+            if (numeroDiscosRestante <= 0)
             {
                 return;
             }
@@ -69,7 +70,7 @@ namespace Domain.TorreHanoi
 
         private void MoverDisco(Pino pinoInicio, Pino pinoFim)
         {
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
             var disco = pinoInicio.RemoverDisco();
             pinoFim.AdicionarDisco(disco);
             PassoAPasso.Add($"Movendo disco {disco.Id} do pino {pinoInicio.Tipo}, para o pino {pinoFim.Tipo}");

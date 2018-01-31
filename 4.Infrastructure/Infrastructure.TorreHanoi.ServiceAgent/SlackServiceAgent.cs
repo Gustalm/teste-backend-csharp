@@ -17,9 +17,9 @@ namespace Infrastructure.TorreHanoi.ServiceAgent
             _apiRoute = route;
         }
 
-        public async Task<bool> Post(string mensgem)
+        public async Task<bool> Post(string mensagem)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(new { text = mensgem }), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonConvert.SerializeObject(new { text = mensagem }), Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync(_apiRoute, content);
 

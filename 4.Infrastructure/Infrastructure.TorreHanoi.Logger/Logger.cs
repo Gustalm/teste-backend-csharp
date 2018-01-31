@@ -16,9 +16,9 @@ namespace Infrastructure.TorreHanoi.Log
             _tiposLogsDisponiveis = AdicionarLogsDisponiveis(tiposLogs);
         }
 
-        public bool Logar(string mensgem, TipoLog tipo)
+        public bool Logar(string mensagem, TipoLog tipo)
         {
-            return _tiposLogsDisponiveis.Contains(tipo) && Task.Run(async () => await _serviceAgent.Post(mensgem)).Result;
+            return _tiposLogsDisponiveis.Contains(tipo) && Task.Run(async () => await _serviceAgent.Post(mensagem)).Result;
         }
 
         private static ICollection<TipoLog> AdicionarLogsDisponiveis(IEnumerable<string> tiposLogs)

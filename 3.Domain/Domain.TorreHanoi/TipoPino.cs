@@ -2,8 +2,8 @@
 {
     public enum TipoPino
     {
-        Origem = 1,
-        Intermediario = 2,
-        Destino = 3
+        Torre1 = 1,
+        Torre2 = 2,
+        Torre3 = 3
     }
 }
